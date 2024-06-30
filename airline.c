@@ -1,5 +1,20 @@
+#include<stdlib.h>
 #include<stdio.h>
 #include<windows.h>
+#include<string.h>
+
+ #define MAX_TASK_LENGTH 100
+
+typedef struct {
+    char pass[MAX_TASK_LENGTH];
+    char name[MAX_TASK_LENGTH];
+} air;
+
+//enter
+void systemenu();
+void login();
+void sigin();
+void login_admin();
 
 //main menu
 void airoplane();
@@ -49,9 +64,9 @@ int main(){
     
 
         switch(choice){
-         case 1: user();
+         case 1: systemenu();
          break;
-         case 2: admin();
+         case 2: login_admin();
          break;
          case 3:exitt();
          break;
@@ -71,6 +86,41 @@ int main(){
 
 }
 
+void systemenu(){
+	system("cls");
+	int select;
+	 airoplane();
+
+     printf("---------------------------- \n");
+     printf("Enter 1 for Login: \n");
+     printf("---------------------------- \n\n");
+
+     printf("---------------------------- \n");
+     printf("Enter 2 for Sign in: \n");
+     printf("---------------------------- \n\n");
+
+     printf("Enter your choice: ");
+     scanf("%d",&select);
+    
+
+        switch(select){
+         case 1: login();
+         break;
+         case 2: sigin();
+         break;
+         default:
+            system("cls");
+            HANDLE clr = GetStdHandle(STD_OUTPUT_HANDLE);
+            SetConsoleTextAttribute(clr,4);
+            printf("Invalid syntax..!! \n\nPress any (Number key) to RESTART again.. ");
+            SetConsoleTextAttribute(clr,7);  
+            int error;
+            scanf("%d",&error);
+            
+         break;
+        }
+        
+    }
 // user -------------------------------------------------------------------
 
 void user(){
@@ -132,6 +182,68 @@ void user(){
          break;
         }   
 }
+
+void login(){
+ system("cls");
+    air id;
+    printf("Enter the name: ");
+    scanf("%s", id.name);
+
+    printf("Enter the password: ");
+    scanf("%s", id.pass);
+
+    FILE *fin = fopen("id.txt", "r");
+    if (fin == NULL) {
+        printf("User not Found!!");
+        systemenu();
+        return;
+    }
+    
+    while (fscanf(fin, "%s %s", id.pass, id.name) != EOF) {
+        if (strcmp(id.pass, id.pass) == 0) {
+            system("cls");
+            fclose(fin);
+            user();
+            return;
+        }
+    }
+    fclose(fin);
+    system("cls");
+    printf("User not Found!!");
+    systemenu();
+}
+
+void sigin(){
+     system("cls");
+      printf("Enter the your name: ");
+      char password2[MAX_TASK_LENGTH];
+    air id ;
+    printf("Enter your name: ");
+    scanf("%s", id.name);
+
+    printf("Enter the Password: ");
+    scanf("%s", id.pass);
+
+    printf("Enter the again Password: "); 
+   scanf(" %s", password2);
+  if (strcmp(id.pass, password2) == 0) {
+  	FILE *fout = fopen("id.txt", "a");
+    if (fout == NULL) {
+            printf("Error opening file!\n");
+            exit(1);
+        } 
+        fprintf(fout, "%s\n%s\n",id.pass, id.name);
+        fclose(fout);
+        system("cls");
+        systemenu();
+} else{
+		system("cls");
+	printf("\t Try again Password didn't match........");
+	sigin();
+}
+	
+}
+
 
 // user function's--------------------------
 
@@ -210,6 +322,35 @@ void UserError(){       // user default function
 
 
 //admin-------------------------------------------------
+
+void login_admin(){
+ system("cls");
+    air id2;
+    printf("Enter the name: ");
+    scanf("%s", id2.name);
+
+    printf("Enter the password: ");
+    scanf("%s", id2.pass);
+
+    FILE *fin = fopen("id2.txt", "r");
+    if (fin == NULL) {
+        printf("User not Found!!");
+        return;
+    }
+    
+    while (fscanf(fin, "%s %s", id2.pass, id2.name) != EOF) {
+        if (strcmp(id2.pass, id2.pass) == 0) {
+            system("cls");
+            fclose(fin);
+            admin();
+            return;
+        }
+    }
+    fclose(fin);
+    system("cls");
+    printf("User not Found!!");
+    login_admin();
+}
 
 void admin(){
     system("cls");
