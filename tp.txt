@@ -1,3 +1,332 @@
-perremm
-sudip is here
-dekha ra hai kya
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#define MAX_TASK_LENGTH 256
+
+typedef struct {
+    int id;
+    char task[MAX_TASK_LENGTH];
+} List;
+
+int ID = -1;
+int choice;
+
+void banner();
+void load_id();
+void add();
+void show();
+void search();
+void delet();
+void option();
+void update();
+void edit();
+void close_program();
+
+int main() {
+    load_id();
+    system("clear");
+    do {
+        banner();
+        printf("1. Add Task\n");
+        printf("2. Show All Task\n");
+        printf("3. Search Task\n");
+        printf("4. Delete Task\n");
+        printf("5. Update/Edit task\n");
+        printf("6. Close program\n");
+
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1: add(); break;
+            case 2: show(); break;
+            case 3: search(); break;
+            case 4: delet(); break;
+            case 5: option(); break;
+            case 6: close_program(); break;
+            default: printf("Invalid syntax\n"); break;
+        }
+    } while (ID != 321);
+    return 0;
+}
+
+void banner() {
+    printf("-----------------------------------\n");
+    printf("\t     To-Do List       \n");
+    printf("-----------------------------------\n");
+}
+
+void load_id() {
+    FILE *fin = fopen("todo.txt", "r");
+    if (!fin) return;
+    List todo;
+    
+    while (fscanf(fin, "%d\n", &todo.id) != EOF) {
+        fgets(todo.task, MAX_TASK_LENGTH, fin);
+        todo.task[strcspn(todo.task, "\n")] = '\0';
+        if (todo.id > ID) {
+            ID = todo.id;
+        }
+    }
+    fclose(fin);
+    ID++;
+}
+
+void add() {
+    system("clear");
+    banner();
+    List todo;
+    printf("Enter the new task: ");
+    getchar();  // clear the newline left by previous input
+    fgets(todo.task, MAX_TASK_LENGTH, stdin);
+    todo.task[strcspn(todo.task, "\n")] = '\0';
+
+    char save;
+    printf("Save? (y/n)\n");
+    scanf(" %c", &save);
+    if (save == 'y') {
+        FILE *fout = fopen("todo.txt", "a");
+        fprintf(fout, "%d\n%s\n", ID, todo.task);
+        fclose(fout);
+        ID++;
+
+        char more;
+        printf("Add More Task? (y/n): ");
+        scanf(" %c", &more);
+
+        if (more == 'y') {
+            add();
+        } else {
+            system("clear");
+            printf("Task Added Successfully..!\n");
+            return;
+        }
+    }
+    system("clear");
+}
+
+void show() {
+    system("clear");
+    banner();
+    List todo;
+
+    FILE *fin = fopen("todo.txt", "r");
+    if (!fin) {
+        printf("Task: Empty..!!\n");
+        return;
+    }
+    printf("Task:\n");
+
+    while (fscanf(fin, "%d\n", &todo.id) != EOF) {
+        fgets(todo.task, MAX_TASK_LENGTH, fin);
+        todo.task[strcspn(todo.task, "\n")] = '\0';
+        if (strlen(todo.task) > 0) {
+            printf("\t%d: %s\n", todo.id, todo.task);
+        } else {
+            printf("Empty..!!\n");
+        }
+    }
+    fclose(fin);
+
+    char exit;
+    printf("\n\nExit? (y/n)\n");
+    scanf(" %c", &exit);
+    if (exit != 'y') {
+        show();
+    }
+    system("clear");
+}
+
+void delet() {
+    system("clear");
+    banner();
+    int id;
+    printf("Enter the task number: ");
+    scanf("%d", &id);
+    List todo;
+    FILE *fin = fopen("todo.txt", "r");
+    if (!fin) {
+        printf("Error opening file.\n");
+        return;
+    }
+    char del;
+    printf("delete? (y/n)\n");
+    scanf(" %c", &del);
+
+    if (del == 'y') {
+        FILE *tempfile = fopen("temp.txt", "w");
+        int index = 0;
+
+        while (fscanf(fin, "%d\n", &todo.id) != EOF) {
+            fgets(todo.task, MAX_TASK_LENGTH, fin);
+            todo.task[strcspn(todo.task, "\n")] = '\0';
+
+            if (todo.id != id) {
+                fprintf(tempfile, "%d\n%s\n", ++index, todo.task);
+            }
+        }
+        fclose(fin);
+        fclose(tempfile);
+        remove("todo.txt");
+        rename("temp.txt", "todo.txt");
+        system("clear");
+        printf("Deleted Successfully..!\n");
+    } else {
+        system("clear");
+        printf("Not Deleted\n");
+    }
+}
+
+void search() {
+    system("clear");
+    List todo;
+    banner();
+    int id;
+    printf("Enter the id: ");
+    scanf("%d", &id);
+
+    FILE *fin = fopen("todo.txt", "r");
+    if (!fin) {
+        printf("Not found !!\n");
+        return;
+    }
+    while (fscanf(fin, "%d\n", &todo.id) != EOF) {
+        fgets(todo.task, MAX_TASK_LENGTH, fin);
+        todo.task[strcspn(todo.task, "\n")] = '\0';
+        if (todo.id == id) {
+            system("clear");
+            printf("\t%d: %s\n", todo.id, todo.task);
+            fclose(fin);
+            return;
+        }
+    }
+    fclose(fin);
+    system("clear");
+    printf("Not found !!\n");
+}
+
+void option() {
+    system("clear");
+    banner();
+    char EU;
+    printf("Enter 'e' for Edit and 'u' for Update: ");
+    scanf(" %c", &EU);
+    if (EU == 'e') {
+        system("clear");
+        edit();
+    } else if (EU == 'u') {
+        system("clear");
+        update();
+    } else {
+        printf("Invalid Input!!...\n");
+    }
+}
+
+void edit() {
+    banner();
+    List todo;
+    FILE *fin = fopen("todo.txt", "r");
+    if (!fin) {
+        printf("Error opening file.\n");
+        return;
+    }
+    int id1;
+    char new_task[MAX_TASK_LENGTH];
+    printf("Enter the id of task: ");
+    scanf("%d", &id1);
+    printf("Enter the new task: ");
+    getchar();
+    fgets(new_task, MAX_TASK_LENGTH, stdin);
+    new_task[strcspn(new_task, "\n")] = '\0';
+
+    char edi;
+    printf("Edit? (y/n)\n");
+    scanf(" %c", &edi);
+
+    if (edi == 'y') {
+        FILE *tempfile = fopen("temp.txt", "w");
+        while (fscanf(fin, "%d\n", &todo.id) != EOF) {
+            fgets(todo.task, MAX_TASK_LENGTH, fin);
+            todo.task[strcspn(todo.task, "\n")] = '\0';
+
+            if (todo.id != id1) {
+                fprintf(tempfile, "%d\n%s\n", todo.id, todo.task);
+            } else {
+                fprintf(tempfile, "%d\n%s\n", id1, new_task);
+            }
+        }
+        fclose(fin);
+        fclose(tempfile);
+        remove("todo.txt");
+        rename("temp.txt", "todo.txt");
+        system("clear");
+        printf("Edited Successfully..!\n");
+    } else {
+        system("clear");
+        printf("Not Edited\n");
+    }
+}
+
+void update() {
+    banner();
+    int id2;
+    char task1[MAX_TASK_LENGTH];
+    printf("Enter the id of task: ");
+    scanf("%d", &id2);
+    printf("Enter the update note: ");
+    getchar();
+    fgets(task1, MAX_TASK_LENGTH, stdin);
+    task1[strcspn(task1, "\n")] = '\0';
+
+    char Upa;
+    printf("Update? (y/n)\n");
+    scanf(" %c", &Upa);
+
+    List todo;
+    FILE *fin = fopen("todo.txt", "r");
+    if (!fin) {
+        printf("Error opening file.\n");
+        return;
+    }
+
+    if (Upa == 'y') {
+        FILE *tempfile = fopen("temp.txt", "w");
+        while (fscanf(fin, "%d\n", &todo.id) != EOF) {
+            fgets(todo.task, MAX_TASK_LENGTH, fin);
+            todo.task[strcspn(todo.task, "\n")] = '\0';
+
+            if (todo.id != id2) {
+                fprintf(tempfile, "%d\n%s\n", todo.id, todo.task);
+            } else {
+                fprintf(tempfile, "%d\n%s (%s)\n", id2, todo.task, task1);
+            }
+        }
+        fclose(fin);
+        fclose(tempfile);
+        remove("todo.txt");
+        rename("temp.txt", "todo.txt");
+        system("clear");
+        printf("Updated Successfully..!\n");
+    } else {
+        system("clear");
+        printf("Updation Cancelled...!!\n");
+    }
+}
+
+void close_program() {
+    system("clear");
+    char off;
+    banner();
+    printf("Are you sure you want to close the program (y/n): ");
+    scanf(" %c", &off);
+    if (off == 'y') {
+        system("clear");
+        ID = 321;
+        printf("Visit again..!\n");
+        printf("*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*\n");
+    } else {
+        system("clear");
+    }
+}
+
