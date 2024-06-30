@@ -1,0 +1,49 @@
+//use this to store admin data
+#include<stdio.h>
+#include<windows.h>
+#include<stdlib.h>
+
+#define MAX_TASK_LENGTH 100
+
+typedef struct {
+    char pass[MAX_TASK_LENGTH];
+    char name[MAX_TASK_LENGTH];
+} air;
+
+ int s =1;
+ 
+void login(){
+    system("cls");
+    air id2;
+
+    printf("Enter your name: ");
+    scanf("%s", id2.name);
+
+    printf("Enter the Password: ");
+    scanf("%s", id2.pass);
+
+    FILE *fout = fopen("id2.txt", "a");
+    fprintf(fout, "%s %s\n", id2.pass, id2.name);
+    fclose(fout);
+    int d;
+
+    printf("do  you want to contine (y/n) ");
+    	scanf("%d",d);
+    	if(d=='y'){
+    		login();
+    		
+		}
+		else{
+			s=0;
+		}
+	
+}
+
+int main(){
+	while(s!=0){
+	login();
+}
+	return 0;
+}	
+	
+	
