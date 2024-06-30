@@ -25,7 +25,7 @@ void close_program();
 
 int main() {
     load_id();
-    system("clear");
+    system("cls");
     do {
         banner();
         printf("1. Add Task\n");
@@ -74,7 +74,7 @@ void load_id() {
 }
 
 void add() {
-    system("clear");
+    system("cls");
     banner();
     List todo;
     printf("Enter the new task: ");
@@ -98,16 +98,16 @@ void add() {
         if (more == 'y') {
             add();
         } else {
-            system("clear");
+            system("cls");
             printf("Task Added Successfully..!\n");
             return;
         }
     }
-    system("clear");
+    system("cls");
 }
 
 void show() {
-    system("clear");
+    system("cls");
     banner();
     List todo;
 
@@ -135,11 +135,11 @@ void show() {
     if (exit != 'y') {
         show();
     }
-    system("clear");
+    system("cls");
 }
 
 void delet() {
-    system("clear");
+    system("cls");
     banner();
     int id;
     printf("Enter the task number: ");
@@ -170,16 +170,16 @@ void delet() {
         fclose(tempfile);
         remove("todo.txt");
         rename("temp.txt", "todo.txt");
-        system("clear");
+        system("cls");
         printf("Deleted Successfully..!\n");
     } else {
-        system("clear");
+        system("cls");
         printf("Not Deleted\n");
     }
 }
 
 void search() {
-    system("clear");
+    system("cls");
     List todo;
     banner();
     int id;
@@ -195,28 +195,28 @@ void search() {
         fgets(todo.task, MAX_TASK_LENGTH, fin);
         todo.task[strcspn(todo.task, "\n")] = '\0';
         if (todo.id == id) {
-            system("clear");
+            system("cls");
             printf("\t%d: %s\n", todo.id, todo.task);
             fclose(fin);
             return;
         }
     }
     fclose(fin);
-    system("clear");
+    system("cls");
     printf("Not found !!\n");
 }
 
 void option() {
-    system("clear");
+    system("cls");
     banner();
     char EU;
     printf("Enter 'e' for Edit and 'u' for Update: ");
     scanf(" %c", &EU);
     if (EU == 'e') {
-        system("clear");
+        system("cls");
         edit();
     } else if (EU == 'u') {
-        system("clear");
+        system("cls");
         update();
     } else {
         printf("Invalid Input!!...\n");
@@ -260,10 +260,10 @@ void edit() {
         fclose(tempfile);
         remove("todo.txt");
         rename("temp.txt", "todo.txt");
-        system("clear");
+        system("cls");
         printf("Edited Successfully..!\n");
     } else {
-        system("clear");
+        system("cls");
         printf("Not Edited\n");
     }
 }
@@ -306,27 +306,26 @@ void update() {
         fclose(tempfile);
         remove("todo.txt");
         rename("temp.txt", "todo.txt");
-        system("clear");
+        system("cls");
         printf("Updated Successfully..!\n");
     } else {
-        system("clear");
+        system("cls");
         printf("Updation Cancelled...!!\n");
     }
 }
 
 void close_program() {
-    system("clear");
+    system("cls");
     char off;
     banner();
     printf("Are you sure you want to close the program (y/n): ");
     scanf(" %c", &off);
     if (off == 'y') {
-        system("clear");
+        system("cls");
         ID = 321;
         printf("Visit again..!\n");
         printf("*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*\n");
     } else {
-        system("clear");
+        system("cls");
     }
 }
-
