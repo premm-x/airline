@@ -7,7 +7,7 @@
 
 typedef struct {
     char pass[MAX_TASK_LENGTH];
-    char name[MAX_TASK_LENGTH];
+    char gmail[MAX_TASK_LENGTH];
 } air;
 
 //enter
@@ -87,7 +87,6 @@ int main(){
 }
 
 void systemenu(){
-	system("cls");
 	int select;
 	 airoplane();
 
@@ -182,44 +181,51 @@ void user(){
          break;
         }   
 }
+void login() {
+    system("cls");
 
-void login(){
- system("cls");
     air id;
-    printf("Enter the name: ");
-    scanf("%s", id.name);
+    char stored_gmail[50], stored_pass[50];
+
+    printf("Enter the gmail: ");
+    scanf("%s", id.gmail);
 
     printf("Enter the password: ");
     scanf("%s", id.pass);
 
     FILE *fin = fopen("id.txt", "r");
     if (fin == NULL) {
-        printf("User not Found!!");
+        printf("User not Found!!\n");
         systemenu();
         return;
     }
-    
-    while (fscanf(fin, "%s %s", id.pass, id.name) != EOF) {
-        if (strcmp(id.pass, id.pass) == 0) {
-            system("cls");
-            fclose(fin);
-            user();
-            return;
+
+    int user_found = 0;
+    while (fscanf(fin, "%s %s", stored_gmail, stored_pass) != EOF) {
+        printf("Checking against stored credentials: %s %s\n", stored_gmail, stored_pass); // Debugging print statement
+        if (strcmp(id.gmail, stored_gmail) == 0 && strcmp(id.pass, stored_pass) == 0) {
+            user_found = 1;
+            break;
         }
     }
     fclose(fin);
-    system("cls");
-    printf("User not Found!!");
-    systemenu();
+
+    if (user_found) {
+        system("cls");
+        user();
+    } else {
+        system("cls");
+        printf("User not Found!!\n");
+        systemenu();
+    }
 }
 
 void sigin(){
      system("cls");
-      printf("Enter the your name: ");
       char password2[MAX_TASK_LENGTH];
     air id ;
-    printf("Enter your name: ");
-    scanf("%s", id.name);
+    printf("Enter your gmail: ");
+    scanf("%s", id.gmail);
 
     printf("Enter the Password: ");
     scanf("%s", id.pass);
@@ -232,7 +238,7 @@ void sigin(){
             printf("Error opening file!\n");
             exit(1);
         } 
-        fprintf(fout, "%s\n%s\n",id.pass, id.name);
+        fprintf(fout, "%s\n%s\n", id.gmail , id.pass);
         fclose(fout);
         system("cls");
         systemenu();
@@ -323,33 +329,41 @@ void UserError(){       // user default function
 
 //admin-------------------------------------------------
 
-void login_admin(){
- system("cls");
+void login_admin() {
+    system("cls");
+
     air id2;
-    printf("Enter the name: ");
-    scanf("%s", id2.name);
+    char stored_gmail[50], stored_pass[50];
+
+    printf("Enter the gmail: ");
+    scanf("%s", id2.gmail);
 
     printf("Enter the password: ");
     scanf("%s", id2.pass);
 
     FILE *fin = fopen("id2.txt", "r");
     if (fin == NULL) {
-        printf("User not Found!!");
+        printf("ID not Found!!\n");
         return;
     }
-    
-    while (fscanf(fin, "%s %s", id2.pass, id2.name) != EOF) {
-        if (strcmp(id2.pass, id2.pass) == 0) {
-            system("cls");
-            fclose(fin);
-            admin();
-            return;
+
+    int user_found = 0;
+    while (fscanf(fin, "%s %s", stored_gmail, stored_pass) != EOF) {
+        printf("Checking against stored credentials: %s %s\n", stored_gmail, stored_pass); // Debugging print statement
+        if (strcmp(id2.gmail, stored_gmail) == 0 && strcmp(id2.pass, stored_pass) == 0) {
+            user_found = 1;
+            break;
         }
     }
     fclose(fin);
-    system("cls");
-    printf("User not Found!!");
-    login_admin();
+
+    if (user_found) {
+        system("cls");
+        admin();
+    } else {
+        system("cls");
+        printf("Id not Found!!\n");
+    }
 }
 
 void admin(){
@@ -482,10 +496,6 @@ void AdminError(){   //admin default function
       admin();
     }system("cls");
 }
-
-
-
-
 
 
 
