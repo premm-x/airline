@@ -23,7 +23,7 @@ void login(){
     scanf("%s", id2.pass);
 
     FILE *fout = fopen("id2.txt", "a");
-    fprintf(fout, "%s %s\n", id2.pass, id2.name);
+    fprintf(fout, "%s %s\n", id2.name , id2.pass);
     fclose(fout);
     int d;
 
