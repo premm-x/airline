@@ -10,6 +10,12 @@ typedef struct {
     char gmail[MAX_TASK_LENGTH];
 } air;
 
+typedef struct {
+	char name [MAX_TASK_LENGTH];
+	int date ;
+	int plane_number ;	
+}fly;
+
 //enter
 void systemenu();
 void login();
@@ -37,54 +43,58 @@ void AdminAnnoucement();
 void AdminRating();
 void AdminExit(); 
 void AdminError();    // admin default function
+//flight functions
+void recent_flights();
+void search_flight();
+void booking();
 
+void main() {
+    int choice = 0;
 
-int main(){
-    int choice;
-
-    while(choice != 3){
+    while (choice != 3) {
         system("cls");
 
         airoplane();
 
-     printf("---------------------------- \n");
-     printf("Enter 1 for User: \n");
-     printf("---------------------------- \n\n");
+        printf("---------------------------- \n");
+        printf("Enter 1 for User: \n");
+        printf("---------------------------- \n\n");
 
-     printf("---------------------------- \n");
-     printf("Enter 2 for Admin: \n");
-     printf("---------------------------- \n\n");
+        printf("---------------------------- \n");
+        printf("Enter 2 for Admin: \n");
+        printf("---------------------------- \n\n");
 
-     printf("---------------------------- \n");
-     printf("Enter 3 for Exit: \n");
-     printf("---------------------------- \n\n");
+        printf("---------------------------- \n");
+        printf("Enter 3 for Exit: \n");
+        printf("---------------------------- \n\n");
 
-     printf("Enter your choice: ");
-     scanf("%d",&choice);
-    
+        printf("Enter your choice: ");
+        scanf("%d", &choice);
 
-        switch(choice){
-         case 1: systemenu();
-         break;
-         case 2: login_admin();
-         break;
-         case 3:exitt();
-         break;
-         default:
-            system("cls");
-            HANDLE clr = GetStdHandle(STD_OUTPUT_HANDLE);
-            SetConsoleTextAttribute(clr,4);
-            printf("Invalid syntax..!! \n\nPress any (Number key) to RESTART again.. ");
-            SetConsoleTextAttribute(clr,7);  
-            int error;
-            scanf("%d",&error);
-            
-         break;
+        switch (choice) {
+            case 1:
+                system("cls");
+                systemenu();
+                break;
+            case 2:
+                login_admin();
+                break;
+            case 3:
+                exitt();
+                break;
+            default:
+                system("cls");
+                HANDLE clr = GetStdHandle(STD_OUTPUT_HANDLE);
+                SetConsoleTextAttribute(clr, 4);
+                printf("Invalid syntax..!! \n\nPress any (Number key) to RESTART again.. ");
+                SetConsoleTextAttribute(clr, 7);  
+                int error;
+                scanf("%d", &error);
+                break;
         }
-        
     }
-
 }
+
 
 void systemenu(){
 	int select;
@@ -253,24 +263,214 @@ void sigin(){
 
 // user function's--------------------------
 
-void UserBook(){
+void UserBook() {
+    int select;
+    airoplane();
+
+    printf("---------------------------- \n");
+    printf("Enter 1 to see Available: \n");
+    printf("---------------------------- \n\n");
+
+    printf("---------------------------- \n");
+    printf("Enter 2 to Search flight for specific date : \n");
+    printf("---------------------------- \n\n");
+
+    printf("---------------------------- \n");
+    printf("Enter 3 for exit: \n");
+    printf("---------------------------- \n\n");
+
+    printf("Enter your choice: ");
+    scanf("%d", &select);
+
+    switch (select) {
+        case 1:
+            recent_flights();
+            break;
+        case 2:
+            search_flight();
+            break;
+        case 3:
+            user();
+            break;
+        default:
+            system("cls");
+            printf("Invalid input ");
+            break;
+    }
+}
+ 
+void  recent_flights(){
+	  system("cls");
+    fly flight;
+   	printf("Plane\t\tdate\t\t\tName\nnumber\n");
+    FILE *fin = fopen("flight.txt", "r");
+    if (!fin) {
+        printf("name: Empty..!!\n");
+        return;
+    }
+
+  while (fscanf(fin, "%d %d %s", &flight.plane_number, &flight.date, flight.name) != EOF) {
+        printf("\n%d \t\t%d \t\t%s", flight.plane_number, flight.date, flight.name);
+        }
+    fclose(fin);
+
+    char book;
+    printf("\nDo you want to book flight? (y/n)\n");
+    scanf(" %c", &book);
+    if (book != 'y') {
+       UserBook();
+    }
+      booking(); 
+}
+
+
+
+void search_flight(){
     system("cls");
-    printf("user book ");
-    int c;
-    scanf("%d",&c);
+    fly flight;
+    int date;
+    printf("Enter the date: ");
+    scanf("%d", &date);
+
+    if(date >= 4 && date <= 8) {
+        FILE *fin = fopen("flight.txt", "r");
+        if (!fin) {
+            printf("Not found !!\n");
+            return;
+        }
+
+        while (fscanf(fin, "%d %d %s", &flight.plane_number, flight.date, flight.name) != EOF) {
+            printf("Plane\t\tDate\t\t\tName\nnumber\n");
+            if (flight.date == date) {
+                system("cls");
+                printf("\n%d \t\t%d \t\t%s", flight.plane_number, flight.date, flight.name);
+                fclose(fin);
+                return;
+            }
+        }
+        fclose(fin);
+    } else {
+        system("cls");
+        printf("\n\n\n\t\t coming soon..........!");  
+        scanf("%d",&date);
+        system("cls");
+        UserBook();    
+    }
+
+    char book;
+    printf("\n\nExit? (y/n)\n");
+    scanf(" %c", &book);
+    if (book != 'y') {
+       UserBook();
+    }
+}
+
+void booking(){
+	int num;
+	printf("Enter the plane number:");
+	  scanf("%d", &num);
+    fly flight ;
+    FILE *fin = fopen("flight.txt", "r");
+    if (!fin) {
+        printf("Error opening file.\n");
+        return;
+    }
+    char book;
+    printf("you want to book this flight? (y/n)\n");
+    scanf(" %c", &book);
+    
+    if (book == 'y') {
+        FILE *tempfile = fopen("myflight.txt", "w");
+        
+         while (fscanf(fin, "%d %d %s", &flight.plane_number, &flight.date, flight.name) != EOF) { 
+            if (flight.plane_number == num) {
+                fprintf(tempfile, "\n%d \t\t%d \t\t%s", flight.plane_number, flight.date, flight.name); 
+            }
+        }
+        fclose(fin);
+        fclose(tempfile); 
+        system("cls");
+        printf("booketed Successfully..!\n");
+         UserBook();
+    } else {
+        system("cls");
+        printf("Not booketed\n");
+         UserBook();
+    }
 }
 
 void UserCancel(){
     system("cls");
-    printf("user cancel");
-    int c;
-    scanf("%d",&c);
+    fly flight;
+   	printf("Plane\t\tDate\t\t\tName\nnumber \n");
+    FILE *fin = fopen("myflight.txt", "r");
+    if (!fin) {
+        printf("name: Empty..!!\n");
+        return;
+    }
+
+   while (fscanf(fin, "%d %d %s", &flight.plane_number, &flight.date, flight.name) != EOF) { 
+        printf("\n%d \t\t%d \t\t%s", flight.plane_number, flight.date, flight.name); 
+    }
+    fclose(fin);
+    
+    printf("Enter the plane number which you wanted to delete ");
+    int num;
+    scanf("%d",&num);
+    char delete;
+    printf("you want to book this flight? (y/n)\n");
+    scanf(" %c", &delete);
+    
+    if (delete == 'y') {
+        FILE *tempfile = fopen("temp.txt", "w");
+
+        fin = fopen("myflight.txt", "r");
+        while (fscanf(fin, "%d %d %s", &flight.plane_number, &flight.date, flight.name) != EOF) { 
+            if (flight.plane_number != num) {
+                fprintf(tempfile, "\n%d \t\t%d \t\t%s", flight.plane_number, flight.date, flight.name);
+            }
+        }
+        fclose(fin);
+        fclose(tempfile);
+        remove("myflight.txt");
+        rename("temp.txt", "myflight.txt");
+        system("cls");
+        printf("cancelled Successfully..!\n");
+         UserBook();
+    } else {
+        system("cls");
+        printf("Not cancelled\n");
+         UserBook();
+    }
 }
 void UserView_book_flight(){
     system("cls");
     printf("user view book flight");
-    int c;
-    scanf("%d",&c);
+    fly flight;
+    printf("Plane\t\tDate\t\t\tName\nnumber\n");
+    FILE *fin = fopen("myflight.txt", "r");
+    if (!fin) {
+        printf("name: Empty..!!\n");
+        return;
+    }
+
+    while (fscanf(fin, "%d %d %s", &flight.plane_number, &flight.date, flight.name) != EOF) { 
+        if (strlen(flight.name) > 0) {
+            printf("%d \t\t%d \t\t%s", flight.plane_number, flight.date, flight.name); 
+        } else {
+            printf("Empty..!!\n");
+        }
+    }
+    fclose(fin);
+    
+    char exit;
+    printf("\n\nExit? (y/n)\n");
+    scanf(" %c", &exit);
+    if (exit != 'y') {
+       UserView_book_flight();
+    }
+    UserBook();
+   
 }
 void UserAnnoucement(){
     system("cls");
@@ -389,7 +589,7 @@ void admin(){
      printf("-------------------------------- \n\n");
 
      printf("-------------------------------- \n");
-     printf("Enter 3 to view booked flight: \n");
+     printf("Enter 3 to List of flight: \n");
      printf("-------------------------------- \n\n");
 
      printf("-------------------------------- \n");
@@ -431,21 +631,104 @@ void admin(){
 
 void AdminAdd(){
     system("cls");
-    printf("Admin add");
-    int a;
-    scanf("%d",&a);
+    airoplane();
+    fly flight;
+    printf("Enter the flight name :");
+    scanf("%s", flight.name);
+    
+    printf("Enter the flight date: ");
+    scanf("%d", &flight.date);
+
+    printf("Enter the flight number: ");
+    scanf("%d", &flight.plane_number);
+
+    FILE *fout = fopen("flight.txt", "a");
+    fprintf(fout, "\n%d\t\t%d\t\t\t%s", flight.plane_number, flight.date, flight.name);
+    fclose(fout);
+
+    char con;
+
+    printf("Do you want to continue (y/n) ");
+    scanf(" %c", &con);
+    if (con == 'y') {
+        AdminAdd();
+    } else {
+        admin();
+    }
 }
+
 void AdminCancel(){
-    system("cls");
-    printf("Admin cancel");
-    int a;
-    scanf("%d",&a);
+   system("cls");
+    fly flight;
+   	printf("Plane\t\tDate\t\t\tName\nnumber \n");
+    FILE *fin = fopen("myflight.txt", "r");
+    if (!fin) {
+        printf("name: Empty..!!\n");
+        return;
+    }
+
+   while (fscanf(fin, "%d %d %s", &flight.plane_number, &flight.date, flight.name) != EOF) { 
+        printf("\n%d \t\t%d \t\t%s", flight.plane_number, flight.date, flight.name); 
+    }
+    fclose(fin);
+    
+    printf("Enter the plane number which you wanted to cancel : ");
+    int num;
+    scanf("%d",&num);
+    char delete;
+    printf("you want to cancel this flight? (y/n)\n");
+    scanf(" %c", &delete);
+    
+    if (delete == 'y') {
+    	char reason[MAX_TASK_LENGTH];
+    	printf("Enter the reason for why flight got cancelled :");
+    	scanf("%[^\n]%c", reason);
+        FILE *tempfile = fopen("temp.txt", "w");
+        
+        fin = fopen("flight.txt", "r");
+        while (fscanf(fin, "%d %d %s", &flight.plane_number, &flight.date, flight.name) != EOF) { 
+            if (flight.plane_number != num) {
+                fprintf(tempfile, "\n%d \t\t%d \t\t%s", flight.plane_number, flight.date, flight.name);
+            }
+             else  {
+                fprintf(tempfile, "Cancelled \t\t%d \t\t%s ( %s )", flight.date, flight.name, reason);
+            }
+        }
+        fclose(fin);
+        fclose(tempfile);
+        remove("myflight.txt");
+        rename("temp.txt", "myflight.txt");
+        system("cls");
+        printf("cancelled Successfully..!\n");
+         admin();
+    } else {
+        system("cls");
+        printf("Not cancelled\n");
+        admin();
+    };
 }
 void AdminView_book_flight(){
     system("cls");
-    printf("Admin view book flight");
-    int a;
-    scanf("%d",&a);
+    fly flight;
+   	printf("Plane\t\tdate\t\t\tName\nnumber\n");
+    FILE *fin = fopen("flight.txt", "r");
+    if (!fin) {
+        printf("name: Empty..!!\n");
+        return;
+    }
+
+  while (fscanf(fin, "%d %d %s", &flight.plane_number, &flight.date, flight.name) != EOF) {
+        printf("\n%d \t\t%d \t\t%s", flight.plane_number, flight.date, flight.name);
+        }
+    fclose(fin);
+
+    char book;
+    printf("\n\nExit? (y/n)\n");
+    scanf(" %c", &book);
+    if (book != 'y') {
+       AdminView_book_flight();
+    }
+     admin(); 
 }
 void AdminAnnoucement(){
     system("cls");
@@ -510,28 +793,26 @@ void exitt(){
 }
 // exit----main----ended------------------------------------------------------------------
 
-void airoplane(){
-
+void airoplane() {
     HANDLE clr = GetStdHandle(STD_OUTPUT_HANDLE);
 
-    SetConsoleTextAttribute(clr,1);
+    SetConsoleTextAttribute(clr, 1);
     printf("\t\t\t                            | \n");
-    SetConsoleTextAttribute(clr,2);
+    SetConsoleTextAttribute(clr, 2);
     printf("\t\t\t                           _|_  \n");
-    SetConsoleTextAttribute(clr,3);
+    SetConsoleTextAttribute(clr, 3);
     printf("\t\t\t                         / ___ \\ \n");
-    SetConsoleTextAttribute(clr,4);
+    SetConsoleTextAttribute(clr, 4);
     printf("\t\t\t                        /oo   oo\\ \n");
-    SetConsoleTextAttribute(clr,5);
+    SetConsoleTextAttribute(clr, 5);
     printf("\t\t\t\\_______________________\\       /_______________________/ \n");
-    SetConsoleTextAttribute(clr,6);
+    SetConsoleTextAttribute(clr, 6);
     printf("\t\t\t  `-----|--------|-------\\_____/-----|--------|-------' \n");
-    SetConsoleTextAttribute(clr,1);
+    SetConsoleTextAttribute(clr, 1);
     printf("\t\t\t     ( )    ( )         ()oo|oo()        ( )     ( )  \n");
     printf("\n");
-    SetConsoleTextAttribute(clr,2);
+    SetConsoleTextAttribute(clr, 2);
     printf("\t\t\t\t  WELCOME TO AIRLINE MANAGEMENT SYSTEM  \n\n\n");
 
-    SetConsoleTextAttribute(clr,7);
-
+    SetConsoleTextAttribute(clr, 7);
 }
