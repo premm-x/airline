@@ -74,10 +74,12 @@ void main() {
         switch (choice) {
             case 1:
                 system("cls");
-                systemenu();
+                // systemenu();
+                user();
                 break;
             case 2:
-                login_admin();
+                //login_
+                admin();
                 break;
             case 3:
                 exitt();
@@ -98,6 +100,7 @@ void main() {
 
 void systemenu(){
 	int select;
+    system("cls");
 	 airoplane();
 
      printf("---------------------------- \n");
@@ -138,12 +141,12 @@ void user(){
 
      HANDLE clr = GetStdHandle(STD_OUTPUT_HANDLE);
 
-     SetConsoleTextAttribute(clr,3);
-     printf("\t\t------------------------------------- \n");
-     printf("\t\t|                                   | \n");
-     printf("\t\t|\tWelcome in User portal      |\n");
-     printf("\t\t|                                   | \n");
-     printf("\t\t------------------------------------ \n\n");
+     SetConsoleTextAttribute(clr,2);
+     printf("\t\t     -~-~-~-~-~--~-~-~-~-~-~-~-~-~-~-~-~- \n");
+     printf("\t\t    /                                    \\ \n");
+     printf("\t\t-~<{\t    Welcome in User portal        }>~-\n");
+     printf("\t\t    \\                                    / \n");
+     printf("\t\t     -~-~-~-~-~--~-~-~-~-~-~-~-~-~-~-~-~- \n\n");
      SetConsoleTextAttribute(clr,7);
 
      printf("-------------------------------- \n");
@@ -163,11 +166,7 @@ void user(){
      printf("-------------------------------- \n\n");
 
      printf("-------------------------------- \n");
-     printf("Enter 5 to give rating: \n");
-     printf("-------------------------------- \n\n");
-
-     printf("-------------------------------- \n");
-     printf("Enter 6 to Exit: \n");
+     printf("Enter 5 to Exit: \n");
      printf("-------------------------------- \n\n");
      
 
@@ -183,9 +182,7 @@ void user(){
          break;
          case 4: UserAnnoucement();
          break;
-         case 5: UserRating();
-         break;
-         case 6: UserExit();     //completed
+         case 5: UserExit();     //completed
          break;
          default: UserError();    //completed
          break;
@@ -193,6 +190,14 @@ void user(){
 }
 void login() {
     system("cls");
+
+    HANDLE clr = GetStdHandle(STD_OUTPUT_HANDLE);
+
+     SetConsoleTextAttribute(clr,6);
+     printf("\t\t  -~-~-~-~-~--~-~-~-~-~-~-~-~- \n");
+     printf("\t\t<(\t    User Login        )>\n");
+     printf("\t\t  -~-~-~-~-~--~-~-~-~-~-~-~-~- \n\n");
+     SetConsoleTextAttribute(clr,7);
 
     air id;
     char stored_gmail[50], stored_pass[50];
@@ -206,7 +211,28 @@ void login() {
     FILE *fin = fopen("id.txt", "r");
     if (fin == NULL) {
         printf("User not Found!!\n");
-        systemenu();
+
+        printf("\nComfirm Exit? (y/n) : ");
+        char exit;
+        scanf("%s",&exit);
+
+        if(exit == 'y'){
+        systemenu();   
+        }
+        else if(exit == 'n'){
+         login();
+        }
+        else{
+         HANDLE clr = GetStdHandle(STD_OUTPUT_HANDLE);
+         SetConsoleTextAttribute(clr,4);  
+         printf("invalid systax..! \nPress (1) to restart Login page... ");
+         SetConsoleTextAttribute(clr,7);  
+         int reuser;
+         scanf("%d",&reuser);
+         if(reuser == 1){
+           systemenu();
+         }system("cls");
+        }
         return;
     }
 
@@ -232,6 +258,15 @@ void login() {
 
 void sigin(){
      system("cls");
+     
+     HANDLE clr = GetStdHandle(STD_OUTPUT_HANDLE);
+
+     SetConsoleTextAttribute(clr,6);
+     printf("\t\t  -~-~-~-~-~--~-~-~-~-~-~-~-~- \n");
+     printf("\t\t<(\t    User SignUp        )>\n");
+     printf("\t\t  -~-~-~-~-~--~-~-~-~-~-~-~-~- \n\n");
+     SetConsoleTextAttribute(clr,7);
+
       char password2[MAX_TASK_LENGTH];
     air id ;
     printf("Enter your gmail: ");
@@ -254,8 +289,30 @@ void sigin(){
         systemenu();
 } else{
 		system("cls");
-	printf("\t Try again Password didn't match........");
-	sigin();
+	printf("\t Try again Password didn't match........\n\n");
+
+    printf("\nComfirm Exit? (y/n) : ");
+        char exit;
+        scanf("%s",&exit);
+
+        if(exit == 'y'){
+        systemenu();   
+        }
+        else if(exit == 'n'){
+         sigin();
+        }
+        else{
+         HANDLE clr = GetStdHandle(STD_OUTPUT_HANDLE);
+         SetConsoleTextAttribute(clr,4);  
+         printf("invalid systax..! \nPress (1) to restart Login page... ");
+         SetConsoleTextAttribute(clr,7);  
+         int reuser;
+         scanf("%d",&reuser);
+         if(reuser == 1){
+           systemenu();
+         }system("cls");
+        }
+
 }
 	
 }
@@ -265,19 +322,26 @@ void sigin(){
 
 void UserBook() {
     int select;
-    airoplane();
+    system("cls");
 
-    printf("---------------------------- \n");
+    HANDLE clr = GetStdHandle(STD_OUTPUT_HANDLE);
+    SetConsoleTextAttribute(clr,6);
+     printf("\t\t  -~-~-~-~-~--~-~-~-~-~-~-~-~- \n");
+     printf("\t\t<(\t    Book Flight        )>\n");
+     printf("\t\t  -~-~-~-~-~--~-~-~-~-~-~-~-~- \n\n");
+     SetConsoleTextAttribute(clr,7);
+
+    printf("---------------------------------- \n");
     printf("Enter 1 to see Available: \n");
-    printf("---------------------------- \n\n");
+    printf("---------------------------------- \n\n");
 
-    printf("---------------------------- \n");
+    printf("-------------------------------------------- \n");
     printf("Enter 2 to Search flight for specific date : \n");
-    printf("---------------------------- \n\n");
+    printf("-------------------------------------------- \n\n");
 
-    printf("---------------------------- \n");
+    printf("-------------------------------- \n");
     printf("Enter 3 for exit: \n");
-    printf("---------------------------- \n\n");
+    printf("-------------------------------- \n\n");
 
     printf("Enter your choice: ");
     scanf("%d", &select);
@@ -293,8 +357,7 @@ void UserBook() {
             user();
             break;
         default:
-            system("cls");
-            printf("Invalid input ");
+            UserError();
             break;
     }
 }
@@ -305,7 +368,30 @@ void  recent_flights(){
    	printf("Plane\t\tdate\t\t\tName\nnumber\n");
     FILE *fin = fopen("flight.txt", "r");
     if (!fin) {
+        system("cls");
         printf("name: Empty..!!\n");
+        
+        printf("\nComfirm Exit? (y/n) : ");
+        char exit;
+        scanf("%s",&exit);
+
+        if(exit == 'y'){
+        user();   
+        }
+        else if(exit == 'n'){
+         recent_flights();
+        }
+        else{
+         HANDLE clr = GetStdHandle(STD_OUTPUT_HANDLE);
+         SetConsoleTextAttribute(clr,4);  
+         printf("invalid systax..! \nPress (1) to restart user portal... ");
+         SetConsoleTextAttribute(clr,7);  
+         int reuser;
+         scanf("%d",&reuser);
+         if(reuser == 1){
+           user();
+         }system("cls");
+        }
         return;
     }
 
@@ -401,11 +487,43 @@ void booking(){
 
 void UserCancel(){
     system("cls");
+
+    HANDLE clr = GetStdHandle(STD_OUTPUT_HANDLE);
+
+     SetConsoleTextAttribute(clr,6);
+     printf("\t\t  -~-~-~-~-~--~-~-~-~-~-~-~-~-~-~- \n");
+     printf("\t\t<(\t Cancel the Flight        )>\n");
+     printf("\t\t  -~-~-~-~-~--~-~-~-~-~-~-~-~-~-~- \n\n");
+     SetConsoleTextAttribute(clr,7);
+
     fly flight;
    	printf("Plane\t\tDate\t\t\tName\nnumber \n");
     FILE *fin = fopen("myflight.txt", "r");
     if (!fin) {
+        system("cls");
         printf("name: Empty..!!\n");
+
+        printf("\nComfirm Exit? (y/n) : ");
+        char exit;
+        scanf("%s",&exit);
+
+        if(exit == 'y'){
+        user();   
+        }
+        else if(exit == 'n'){
+         UserCancel();
+        }
+        else{
+         HANDLE clr = GetStdHandle(STD_OUTPUT_HANDLE);
+         SetConsoleTextAttribute(clr,4);  
+         printf("invalid systax..! \nPress (1) to restart user portal... ");
+         SetConsoleTextAttribute(clr,7);  
+         int reuser;
+         scanf("%d",&reuser);
+         if(reuser == 1){
+           user();
+         }system("cls");
+        }
         return;
     }
 
@@ -414,11 +532,11 @@ void UserCancel(){
     }
     fclose(fin);
     
-    printf("Enter the plane number which you wanted to delete ");
+    printf("\n\nEnter the plane number which you wanted to delete ");
     int num;
     scanf("%d",&num);
     char delete;
-    printf("you want to book this flight? (y/n)\n");
+    printf("\nyou want to book this flight? (y/n)\n");
     scanf(" %c", &delete);
     
     if (delete == 'y') {
@@ -445,12 +563,22 @@ void UserCancel(){
 }
 void UserView_book_flight(){
     system("cls");
-    printf("user view book flight");
+    
+    HANDLE clr = GetStdHandle(STD_OUTPUT_HANDLE);
+
+     SetConsoleTextAttribute(clr,6);
+     printf("\t\t  -~-~-~-~-~--~-~-~-~-~-~-~-~-~-~-~-~-~-~- \n");
+     printf("\t\t<(\t    View the booking Flight       )>\n");
+     printf("\t\t  -~-~-~-~-~--~-~-~-~-~-~-~-~-~-~-~-~-~-~- \n\n");
+     SetConsoleTextAttribute(clr,7);
+
     fly flight;
     printf("Plane\t\tDate\t\t\tName\nnumber\n");
     FILE *fin = fopen("myflight.txt", "r");
     if (!fin) {
+        system("cls");
         printf("name: Empty..!!\n");
+
         return;
     }
 
@@ -463,24 +591,33 @@ void UserView_book_flight(){
     }
     fclose(fin);
     
-    char exit;
-    printf("\n\nExit? (y/n)\n");
-    scanf(" %c", &exit);
-    if (exit != 'y') {
-       UserView_book_flight();
-    }
-    UserBook();
+    
+    printf("\n\nComfirm Exit? (y/n) : ");
+        char exit;
+        scanf("%s",&exit);
+
+        if(exit == 'y'){
+        user();   
+        }
+        else if(exit == 'n'){
+         UserView_book_flight();
+        }
+        else{
+         HANDLE clr = GetStdHandle(STD_OUTPUT_HANDLE);
+         SetConsoleTextAttribute(clr,4);  
+         printf("invalid systax..! \nPress (1) to restart the page... ");
+         SetConsoleTextAttribute(clr,7);  
+         int reuser;
+         scanf("%d",&reuser);
+         if(reuser == 1){
+           UserView_book_flight();
+         }system("cls");
+        }
    
 }
 void UserAnnoucement(){
     system("cls");
     printf("user annoucement");
-    int c;
-    scanf("%d",&c);
-}
-void UserRating(){
-    system("cls");
-    printf("user rating");
     int c;
     scanf("%d",&c);
 }
@@ -572,12 +709,12 @@ void admin(){
 
      HANDLE clr = GetStdHandle(STD_OUTPUT_HANDLE);
 
-     SetConsoleTextAttribute(clr,3);
-     printf("\t\t------------------------------------- \n");
-     printf("\t\t|                                   | \n");
-     printf("\t\t|\tWelcome in Admin portal     |\n");
-     printf("\t\t|                                   | \n");
-     printf("\t\t------------------------------------ \n\n");
+     SetConsoleTextAttribute(clr,1);
+     printf("\t\t     -~-~-~-~-~--~-~-~-~-~-~-~-~-~-~-~-~- \n");
+     printf("\t\t    /                                    \\ \n");
+     printf("\t\t-~<{\t    Welcome in Admin portal       }>~-\n");
+     printf("\t\t    \\                                    / \n");
+     printf("\t\t     -~-~-~-~-~--~-~-~-~-~-~-~-~-~-~-~-~- \n\n");
      SetConsoleTextAttribute(clr,7);
 
      printf("-------------------------------- \n");
@@ -597,11 +734,7 @@ void admin(){
      printf("-------------------------------- \n\n");
 
      printf("-------------------------------- \n");
-     printf("Enter 5 to give rating: \n");
-     printf("-------------------------------- \n\n");
-
-     printf("-------------------------------- \n");
-     printf("Enter 6 to Exit: \n");
+     printf("Enter 5 to Exit: \n");
      printf("-------------------------------- \n\n");
      
 
@@ -617,9 +750,7 @@ void admin(){
          break;
          case 4: AdminAnnoucement();
          break;
-         case 5: AdminRating();
-         break;
-         case 6: AdminExit();    //completed
+         case 5: AdminExit();    //completed
          break;
          default: AdminError();    //completed
          break;
@@ -631,7 +762,15 @@ void admin(){
 
 void AdminAdd(){
     system("cls");
-    airoplane();
+    
+    HANDLE clr = GetStdHandle(STD_OUTPUT_HANDLE);
+
+     SetConsoleTextAttribute(clr,6);
+     printf("\t\t  -~-~-~-~-~--~-~-~-~-~-~-~-~-~-~-~-~-~-~- \n");
+     printf("\t\t<(\t    Add Flight for booking        )>\n");
+     printf("\t\t  -~-~-~-~-~--~-~-~-~-~-~-~-~-~-~-~-~-~-~- \n\n");
+     SetConsoleTextAttribute(clr,7);
+
     fly flight;
     printf("Enter the flight name :");
     scanf("%s", flight.name);
@@ -648,7 +787,7 @@ void AdminAdd(){
 
     char con;
 
-    printf("Do you want to continue (y/n) ");
+    printf("\n\nWant to add more (y/n) ");
     scanf(" %c", &con);
     if (con == 'y') {
         AdminAdd();
@@ -659,6 +798,15 @@ void AdminAdd(){
 
 void AdminCancel(){
    system("cls");
+
+   HANDLE clr = GetStdHandle(STD_OUTPUT_HANDLE);
+
+     SetConsoleTextAttribute(clr,6);
+     printf("\t\t  -~-~-~-~-~--~-~-~-~-~-~-~-~-~-~-~-~-~-~- \n");
+     printf("\t\t<(\t    Cancel Flight        )>\n");
+     printf("\t\t  -~-~-~-~-~--~-~-~-~-~-~-~-~-~-~-~-~-~-~- \n\n");
+     SetConsoleTextAttribute(clr,7);
+
     fly flight;
    	printf("Plane\t\tDate\t\t\tName\nnumber \n");
     FILE *fin = fopen("myflight.txt", "r");
@@ -709,6 +857,15 @@ void AdminCancel(){
 }
 void AdminView_book_flight(){
     system("cls");
+
+    HANDLE clr = GetStdHandle(STD_OUTPUT_HANDLE);
+
+     SetConsoleTextAttribute(clr,6);
+     printf("\t\t  -~-~-~-~-~--~-~-~-~-~-~-~-~-~-~-~-~-~-~- \n");
+     printf("\t\t<(\t    View Added Flight        )>\n");
+     printf("\t\t  -~-~-~-~-~--~-~-~-~-~-~-~-~-~-~-~-~-~-~- \n\n");
+     SetConsoleTextAttribute(clr,7);
+
     fly flight;
    	printf("Plane\t\tdate\t\t\tName\nnumber\n");
     FILE *fin = fopen("flight.txt", "r");
