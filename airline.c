@@ -304,7 +304,7 @@ void sigin(){
         else{
          HANDLE clr = GetStdHandle(STD_OUTPUT_HANDLE);
          SetConsoleTextAttribute(clr,4);  
-         printf("invalid systax..! \nPress (1) to restart Login page... ");
+         printf("invalid systax..! \nPress (1) to restart signup page... ");
          SetConsoleTextAttribute(clr,7);  
          int reuser;
          scanf("%d",&reuser);
@@ -488,14 +488,6 @@ void booking(){
 void UserCancel(){
     system("cls");
 
-    HANDLE clr = GetStdHandle(STD_OUTPUT_HANDLE);
-
-     SetConsoleTextAttribute(clr,6);
-     printf("\t\t  -~-~-~-~-~--~-~-~-~-~-~-~-~-~-~- \n");
-     printf("\t\t<(\t Cancel the Flight        )>\n");
-     printf("\t\t  -~-~-~-~-~--~-~-~-~-~-~-~-~-~-~- \n\n");
-     SetConsoleTextAttribute(clr,7);
-
     fly flight;
    	printf("Plane\t\tDate\t\t\tName\nnumber \n");
     FILE *fin = fopen("myflight.txt", "r");
@@ -503,27 +495,6 @@ void UserCancel(){
         system("cls");
         printf("name: Empty..!!\n");
 
-        printf("\nComfirm Exit? (y/n) : ");
-        char exit;
-        scanf("%s",&exit);
-
-        if(exit == 'y'){
-        user();   
-        }
-        else if(exit == 'n'){
-         UserCancel();
-        }
-        else{
-         HANDLE clr = GetStdHandle(STD_OUTPUT_HANDLE);
-         SetConsoleTextAttribute(clr,4);  
-         printf("invalid systax..! \nPress (1) to restart user portal... ");
-         SetConsoleTextAttribute(clr,7);  
-         int reuser;
-         scanf("%d",&reuser);
-         if(reuser == 1){
-           user();
-         }system("cls");
-        }
         return;
     }
 
@@ -536,7 +507,7 @@ void UserCancel(){
     int num;
     scanf("%d",&num);
     char delete;
-    printf("\nyou want to book this flight? (y/n)\n");
+    printf("\nyou want to cancel this flight? (y/n)\n");
     scanf(" %c", &delete);
     
     if (delete == 'y') {
