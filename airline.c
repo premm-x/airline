@@ -768,7 +768,7 @@ void AdminCancel(){
 
     fly flight;
    	printf("Plane\t\tDate\t\t\tName\nnumber \n");
-    FILE *fin = fopen("myflight.txt", "r");
+    FILE *fin = fopen("flight.txt", "r");
     if (!fin) {
         printf("name: Empty..!!\n");
         return;
@@ -779,41 +779,44 @@ void AdminCancel(){
     }
     fclose(fin);
     
-    printf("Enter the plane number which you wanted to cancel : ");
+    printf("\n\n\nEnter the plane number which you wanted to cancel : ");
     int num;
     scanf("%d",&num);
     char delete;
     printf("you want to cancel this flight? (y/n)\n");
     scanf(" %c", &delete);
-    
-    if (delete == 'y') {
-    	char reason[MAX_TASK_LENGTH];
-    	printf("Enter the reason for why flight got cancelled :");
-    	scanf("%[^\n]%c", reason);
+   if (delete == 'y') {
+        char reason[MAX_TASK_LENGTH];
+        printf("Enter the reason for why flight got cancelled: ");
+        getchar(); // Consume the newline character left by previous input
+        fgets(reason, MAX_TASK_LENGTH, stdin);
+        reason[strcspn(reason, "\n")] = 0; // Remove the newline character at the end
+        
         FILE *tempfile = fopen("temp.txt", "w");
         
-        fin = fopen("flight.txt", "r");
+        
+		 fin = fopen("flight.txt", "r");
         while (fscanf(fin, "%d %d %s", &flight.plane_number, &flight.date, flight.name) != EOF) { 
             if (flight.plane_number != num) {
-                fprintf(tempfile, "\n%d \t\t%d \t\t%s", flight.plane_number, flight.date, flight.name);
-            }
-             else  {
-                fprintf(tempfile, "Cancelled \t\t%d \t\t%s ( %s )", flight.date, flight.name, reason);
+                fprintf(tempfile, "%d \t\t%d \t\t%s\n", flight.plane_number, flight.date, flight.name);
+            } else {
+                fprintf(tempfile, "Cancelled \t%d \t\t%s ( %s )\n", flight.date, flight.name, reason);
             }
         }
         fclose(fin);
         fclose(tempfile);
-        remove("myflight.txt");
-        rename("temp.txt", "myflight.txt");
+        remove("flight.txt");
+        rename("temp.txt", "flight.txt");
         system("cls");
-        printf("cancelled Successfully..!\n");
-         admin();
+        printf("Cancelled Successfully..!\n");
+        admin();
     } else {
         system("cls");
         printf("Not cancelled\n");
         admin();
-    };
+    }
 }
+
 void AdminView_book_flight(){
     system("cls");
 
