@@ -2,6 +2,7 @@
 #include<string>
 #include<fstream>
 using namespace std;
+
 class List 
 { public:
     int id;
@@ -28,14 +29,19 @@ int main(){
    system("cls");
    do {
      banner();
-    cout<<"1. Add Task"<<endl;
+    cout<<endl<<endl<<"1. Add Task"<<endl;
+    cout<<"----------------------"<<endl;
     cout<<"2. Show All Task"<<endl;
+    cout<<"----------------------"<<endl;
     cout<<"3. Search Task"<<endl;
+    cout<<"----------------------"<<endl;
     cout<<"4. Delete Task"<<endl;
+    cout<<"----------------------"<<endl;
     cout<<"5. Update/Edit task"<<endl;
-    cout<<"6. Close programm"<<endl;
+    cout<<"----------------------"<<endl;
+    cout<<"6. Close programm"<<endl<<endl;
 
-    cout<<"Enter your choise : ";
+    cout<<endl<<"Enter your choise : ";
     cin>> choice;
 
     switch(choice){
@@ -359,4 +365,3 @@ void close(){
 	}
 
 }
-
