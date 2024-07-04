@@ -162,11 +162,7 @@ void user(){
      printf("-------------------------------- \n\n");
 
      printf("-------------------------------- \n");
-     printf("Enter 4 to read annoucement: \n");
-     printf("-------------------------------- \n\n");
-
-     printf("-------------------------------- \n");
-     printf("Enter 5 to Exit: \n");
+     printf("Enter 4 to Exit: \n");
      printf("-------------------------------- \n\n");
      
 
@@ -180,9 +176,7 @@ void user(){
          break;
          case 3: UserView_book_flight();
          break;
-         case 4: UserAnnoucement();
-         break;
-         case 5: UserExit();     //completed
+         case 4: UserExit();     //completed
          break;
          default: UserError();    //completed
          break;
@@ -701,11 +695,7 @@ void admin(){
      printf("-------------------------------- \n\n");
 
      printf("-------------------------------- \n");
-     printf("Enter 4 to read annoucement: \n");
-     printf("-------------------------------- \n\n");
-
-     printf("-------------------------------- \n");
-     printf("Enter 5 to Exit: \n");
+     printf("Enter 4 to Exit: \n");
      printf("-------------------------------- \n\n");
      
 
@@ -719,9 +709,7 @@ void admin(){
          break;
          case 3: AdminView_book_flight();
          break;
-         case 4: AdminAnnoucement();
-         break;
-         case 5: AdminExit();    //completed
+         case 4: AdminExit();    //completed
          break;
          default: AdminError();    //completed
          break;
